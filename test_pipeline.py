@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
-from synthetic_data import synthetic_data
+from synthetic_data import synthetic_data, synthetic_data_with_error
 from best_fit_line import best_fit_line
 
 def test_csv_exists():
@@ -19,3 +19,9 @@ def test_fit_accuracy():
     m_fit, b_fit = best_fit_line(filename="data.csv", plotname="Best_Line_Fit.png")
     assert np.isclose(m_fit, m_true, atol=1.0), f"Slope not close: {m_fit} vs {m_true}"
     assert np.isclose(b_fit, b_true, atol=5.0), f"Intercept not close: {b_fit} vs {b_true}"
+
+def test_csv_with_error_column():
+    X, Y, errors = synthetic_data_with_error(filename="data_with_errors.csv")
+    df = pd.read_csv("data_with_errors.csv")
+    assert "Error" in df.columns
+    assert len(errors) == len(X)

@@ -23,5 +23,5 @@ def test_fit_accuracy():
 def test_csv_with_error_column():
     X, Y, errors = synthetic_data_with_error(filename="data_with_errors.csv")
     df = pd.read_csv("data_with_errors.csv")
-    assert "Error" in df.columns
-    assert len(errors) == len(X)
+    assert "Error" in df.columns, "Error column not found in CSV"
+    assert len(df["Error"]) == len(X)
